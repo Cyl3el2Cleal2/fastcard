@@ -1,0 +1,32 @@
+version: "3"
+services: 
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    tty: true
+    ports:
+        - "15672:15672"
+        - "5672:5672"
+
+  rank:
+    build: ./microservice/rank
+    tty: true
+    environment: 
+      - RMQ_HOST=rabbitmq
+      - RANK_PORT=8001
+    volumes: 
+      - ./microservice/rank:/app
+    command: python /app/src/main.py
+    ports: 
+      - "8001:8001"
+
+  game:
+    build: ./microservice/game
+    tty: true
+    environment: 
+      - RMQ_HOST=rabbitmq
+      - GAME_PORT=8000
+    volumes: 
+      - ./microservice/game:/app
+    command: python /app/src/main.py
+    ports: 
+      - "8000:8000"
