@@ -30,3 +30,20 @@ services:
     command: python /app/src/main.py
     ports: 
       - "8000:8000"
+
+  gamedb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=game
+      - MONGO_INITDB_ROOT_PASSWORD=game
+    ports: 
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=gamedb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=game
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=game
