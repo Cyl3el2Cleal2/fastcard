@@ -1,27 +1,36 @@
-import motor.motor_asyncio
+from motor.motor_asyncio import AsyncIOMotorClient
 import os
 from bson.objectid import ObjectId
+from models import Game
 
-DB_URL = os.getenv("MONGODB_URL") or 'mongodb://game:game@localhost:27017/game'
+DB_URL = os.getenv("MONGODB_URL") or "mongodb://game:game@localhost:27017/"
+DB_NAME = os.getenv("MONGODB_URL") or "game_db"
 
-client = motor.motor_asyncio.AsyncIOMotorClient(DB_URL)
+client : AsyncIOMotorClient = None
 
-database = client.game_db
+database = None
 
-game_collection = database.get_collection("game")
+game_collection = None
 
 
 # helpers
 
+def connect_db():
+    global client
+    client = AsyncIOMotorClient(DB_URL)
+    database = client[DB_NAME]
+    global game_collection
+    game_collection = database.get_collection("game")
+    return client
 
-def game_helper(game) -> dict:
+
+def game_helper(game: Game) -> dict:
     return {
         "id": str(game["_id"]),
-        "fullname": game["fullname"],
-        "email": game["email"],
-        "course_of_study": game["course_of_study"],
-        "year": game["year"],
-        "GPA": game["gpa"],
+        "player": str(game["player"]),
+        "picked": game["picked"],
+        "picked_count": int(game["picked_count"]),
+        "last_pick": int(game["last_pick"])
     }
 
 async def retrieve_games():
@@ -40,9 +49,12 @@ async def add_game(game_data: dict) -> dict:
 
 # Retrieve a game with a matching ID
 async def retrieve_game(id: str) -> dict:
-    game = await game_collection.find_one({"_id": ObjectId(id)})
-    if game:
-        return game_helper(game)
+    try:
+        game = await game_collection.find_one({"_id": ObjectId(id)})
+        if game:
+            return game
+    except:
+        return
 
 
 # Update a game with a matching ID
@@ -56,7 +68,7 @@ async def update_game(id: str, data: dict):
             {"_id": ObjectId(id)}, {"$set": data}
         )
         if updated_game:
-            return True
+            return await retrieve_game(id)
         return False
 
 
