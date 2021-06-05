@@ -25,6 +25,7 @@ async def root():
 
 @app.post("/games")
 async def new_game():
+  await master.create_task("ranking", kwargs=dict(task_id=20))
   return {"message": "Hello World"}
 
 @app.on_event("startup")
@@ -35,8 +36,6 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
   pass
-
-
 
 async def create_master():
   connection = await connect_robust(f"amqp://{RMQ_USER}:{RMQ_PASSWORD}@{RMQ_HOST}/")
