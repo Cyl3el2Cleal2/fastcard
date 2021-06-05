@@ -25,6 +25,7 @@ services:
     environment: 
       - RMQ_HOST=rabbitmq
       - GAME_PORT=8000
+      - MONGODB_URL=mongodb://game:game@gamedb:27017/
     volumes: 
       - ./microservice/game:/app
     command: python /app/src/main.py
