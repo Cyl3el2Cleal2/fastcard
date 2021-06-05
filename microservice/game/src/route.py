@@ -20,7 +20,7 @@ async def create_game(game: GameCreateBody = Body(...)):
   result = await gameservice.save_game(jsonable_encoder(new_game))
   return result
 
-@router.put('/games')
+@router.put('/games', response_model= PickCardResponse)
 async def open_card(data: GameUpdateBody = Body(...)):
   updating = await gameservice.pick_card(data)
   return updating
