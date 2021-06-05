@@ -40,4 +40,4 @@ class GameUpdateBody(BaseModel):
 class PickCardResponse(BaseModel):
     message: str
     message_type: int
-    data: Optional[Game]
+    data: Optional[dict]
