@@ -4,6 +4,7 @@ from models import Game, PickCardResponse, GameUpdateBody
 from db import (retrieve_game, add_game, update_game, find_top_score)
 from mq import MQ
 class GameService:
+    _top_score = None
     def random_map(self) -> List[int]:
         """ create map template
         """
@@ -119,3 +120,5 @@ class GameService:
             await self.get_top_score()
         if score > self._top_score:
             await MQ.get_master().create_task("ranking", kwargs=dict(player=player,score=score))
+            return True
+        return False
