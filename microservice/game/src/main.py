@@ -9,11 +9,11 @@ import os
 from route import router
 from db import connect_db
 
-RMQ_USER = os.getenv('RMQ_USER') or 'guest'
-RMQ_PASSWORD = os.getenv('RMQ_PASSWORD') or 'guest'
-RMQ_HOST = os.getenv('RMQ_HOST') or 'localhost'
+RMQ_USER = os.getenv('RMQ_USER', 'guest')
+RMQ_PASSWORD = os.getenv('RMQ_PASSWORD', 'guest')
+RMQ_HOST = os.getenv('RMQ_HOST', 'localhost')
 
-GAME_PORT = int(os.getenv('GAME_PORT') or 8000)
+GAME_PORT = int(os.getenv('GAME_PORT', '8000'))
 
 app = FastAPI()
 

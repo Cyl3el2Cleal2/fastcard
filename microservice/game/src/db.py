@@ -3,8 +3,8 @@ import os
 from bson.objectid import ObjectId
 from models import Game
 
-DB_URL = os.getenv("MONGODB_URL") or "mongodb://game:game@localhost:27017/"
-DB_NAME = os.getenv("MONGODB_URL") or "game_db"
+DB_URL = os.getenv("MONGODB_URL", "mongodb://game:game@localhost:27017/")
+DB_NAME = os.getenv("MONGODB_URL", "game_db")
 
 client : AsyncIOMotorClient = None
 
