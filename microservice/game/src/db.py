@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 from models import Game
 
 DB_URL = os.getenv("MONGODB_URL", "mongodb://game:game@localhost:27017/")
-DB_NAME = os.getenv("MONGODB_URL", "game_db")
+DB_NAME = os.getenv("DB_NAME", "game_db")
 
 client : AsyncIOMotorClient = None
 
@@ -58,6 +58,7 @@ async def retrieve_game(id: str) -> dict:
         game = await game_collection.find_one({"_id": ObjectId(id)})
         if game:
             return game
+        return
     except:
         return
 
@@ -83,3 +84,14 @@ async def delete_game(id: str):
     if game:
         await game_collection.delete_one({"_id": ObjectId(id)})
         return True
+
+async def find_top_score():
+    filter = {"$expr": {"$eq": ["$picked", "$map"]}}
+    try:
+        result = game_collection.find(filter).sort("picked_count", 1).limit(1)
+        if result:
+            game = await result.to_list(100)
+            return game_helper(game[0])
+    except Exception as err:
+        print('find error! ' ,err)
+        return
