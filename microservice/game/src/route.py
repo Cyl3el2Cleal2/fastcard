@@ -28,3 +28,7 @@ async def create_game(game: GameCreateBody = Body(...)):
 async def pick_card(data: GameUpdateBody = Body(...)):
     updating = await gameservice.pick_card(data)
     return updating
+
+@router.get('/top_score')
+async def top_score():
+    return await gameservice.get_top_score()

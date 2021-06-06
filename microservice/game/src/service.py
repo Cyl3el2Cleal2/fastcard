@@ -1,7 +1,7 @@
 import random
 from typing import List
 from models import Game, PickCardResponse, GameUpdateBody
-from db import (retrieve_game, add_game, update_game)
+from db import (retrieve_game, add_game, update_game, find_top_score)
 from mq import MQ
 class GameService:
     def random_map(self) -> List[int]:
@@ -30,6 +30,14 @@ class GameService:
             "last_pick": int(game["last_pick"])
         }
 
+    async def get_top_score(self):
+        # Find finished game
+        top_score_doc = await find_top_score()
+        if top_score_doc:
+            self._top_score = top_score_doc["picked_count"]
+            return {"score": self._top_score}
+        return {"score": None}
+
     async def save_game(self, game: Game) -> Game:
         save = await add_game(game)
         return save
@@ -41,7 +49,7 @@ class GameService:
     async def pick_card(self, data: GameUpdateBody) -> PickCardResponse:
         pick = data.pick
         game = await self.get_game(data.id)
-        print(data, game)
+        # print(data, game)
         if game:
             if game["picked"] == game["map"]:
                 return PickCardResponse(message="Sorry, This game is over.", message_type=8, data=self.show_game(game))
@@ -80,7 +88,8 @@ class GameService:
                 # return self.show_game(updated)
                 if updated["picked"] == game["map"]:
                     score = updated["picked_count"]
-                    await self.boardcast_winner(score)
+                    player = updated["player"]
+                    await self.boardcast_winner(player, score)
                     return PickCardResponse(message=f"Congate, You win this game with score = {score}", message_type=7, data=self.show_game(updated))
                 return PickCardResponse(message=f"Nice, Find next couple.", message_type=4, data=self.show_game(updated))
 
@@ -104,6 +113,7 @@ class GameService:
 
         return PickCardResponse(message="Not found", message_type=0)
 
-    async def boardcast_winner(self, score: int):
-        # master.create_task(task, kwargs)
-        await MQ.get_master().create_task("ranking", kwargs=dict(task_id=score))
+    async def boardcast_winner(self, player: str, score: int):
+        # send task to rank service if score is greater than current state
+        if score > self._top_score:
+            await MQ.get_master().create_task("ranking", kwargs=dict(player=player,score=score))
