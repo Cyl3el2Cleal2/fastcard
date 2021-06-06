@@ -180,7 +180,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"60bcbe282d997894e4c7653c\",\n    \"player\": \"abc\",\n    \"pick\": 12\n}",
+							"raw": "{\n    \"id\": \"60bcbe282d997894e4c7653c\",\n    \"player\": \"abc\",\n    \"pick\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -196,7 +196,8 @@
 							"path": [
 								"games"
 							]
-						}
+						},
+						"description": "the body must have\n```json\n{\n    \"id\": \"60bcbe282d997894e4c7653c\",\n    \"player\": \"abc\",\n    \"pick\": 11\n}\n```\n- id for game id\n- player for player name\n- pick for number of pick card range 1 - 12\n\n## we have 8 type of response so you can use it very easy. you can look at pick card example.\n\nfor type5\nthe response will contains `old_picked` for show card to user. then you can hide it by using `picked`"
 					},
 					"response": [
 						{
@@ -601,6 +602,19 @@
 			"item": [
 				{
 					"name": "top_score",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
