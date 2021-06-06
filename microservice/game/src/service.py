@@ -2,8 +2,7 @@ import random
 from typing import List
 from models import Game, PickCardResponse, GameUpdateBody
 from db import (retrieve_game, add_game, update_game)
-
-
+from mq import MQ
 class GameService:
     def random_map(self) -> List[int]:
         """ create map template
@@ -81,6 +80,7 @@ class GameService:
                 # return self.show_game(updated)
                 if updated["picked"] == game["map"]:
                     score = updated["picked_count"]
+                    await self.boardcast_winner(score)
                     return PickCardResponse(message=f"Congate, You win this game with score = {score}", message_type=7, data=self.show_game(updated))
                 return PickCardResponse(message=f"Nice, Find next couple.", message_type=4, data=self.show_game(updated))
 
@@ -103,3 +103,7 @@ class GameService:
                 return PickCardResponse(message=f"Unlucky, Please remember card position.", message_type=5, data=data)
 
         return PickCardResponse(message="Not found", message_type=0)
+
+    async def boardcast_winner(self, score: int):
+        # master.create_task(task, kwargs)
+        await MQ.get_master().create_task("ranking", kwargs=dict(task_id=score))
