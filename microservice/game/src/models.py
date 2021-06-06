@@ -20,21 +20,29 @@ class PyObjectId(ObjectId):
 
 
 class Game(BaseModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     player: str
     map: List[int]
     picked: List[int] = [0] * 12
     picked_count: int = 0
     last_pick: int = -1
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
 
 
 class GameShow(BaseModel):
-    id: str
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     player: str
     picked: List[int]
     picked_count: int
     last_pick: int
 
     class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
                 "id": "60bc8b3d39292d1233c04c99",
