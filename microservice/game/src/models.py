@@ -28,6 +28,7 @@ class Game(BaseModel):
 
 
 class GameShow(BaseModel):
+    id: str
     player: str
     picked: List[int]
     picked_count: int
@@ -36,6 +37,7 @@ class GameShow(BaseModel):
     class Config:
         schema_extra = {
             "example": {
+                "id": "60bc8b3d39292d1233c04c99",
                 "player": "abc",
                 "picked": [
                     0,
