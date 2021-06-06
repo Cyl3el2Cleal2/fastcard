@@ -15,13 +15,18 @@ game_collection = None
 
 # helpers
 
-def connect_db():
-    global client
-    client = AsyncIOMotorClient(DB_URL)
-    database = client[DB_NAME]
-    global game_collection
-    game_collection = database.get_collection("game")
-    return client
+async def connect_db():
+    try:
+        print("Connecting to DB...")
+        client = AsyncIOMotorClient(DB_URL)
+        database = client[DB_NAME]
+        global game_collection
+        game_collection = database.get_collection("game")
+        await client.admin.command('ping')
+        print("DB is connected")
+        return client
+    except Exception as err:
+        raise Exception('Can not connect to Database', err)
 
 
 def game_helper(game: Game) -> dict:

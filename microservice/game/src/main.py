@@ -14,11 +14,8 @@ RMQ_PASSWORD = os.getenv('RMQ_PASSWORD') or 'guest'
 RMQ_HOST = os.getenv('RMQ_HOST') or 'localhost'
 
 GAME_PORT = int(os.getenv('GAME_PORT') or 8000)
-# DB_URL = os.getenv("MONGODB_URL") or 'mongodb+srv://game:game@localhost:27017/game'
 
 app = FastAPI()
-# client = motor.motor_asyncio.AsyncIOMotorClient(DB_URL)
-# db= client.game
 
 master = None
 
@@ -41,18 +38,21 @@ async def validation_exception_handler(request, exc):
 async def startup_event():
   global master 
   master = await create_master()
-  connect_db()
+  await connect_db()
 
 @app.on_event("shutdown")
 async def shutdown_event():
   pass
 
 async def create_master():
-  connection = await connect_robust(f"amqp://{RMQ_USER}:{RMQ_PASSWORD}@{RMQ_HOST}/")
+  try:
+    connection = await connect_robust(f"amqp://{RMQ_USER}:{RMQ_PASSWORD}@{RMQ_HOST}/")
 
-  channel = await connection.channel()
+    channel = await connection.channel()
 
-  return Master(channel)
+    return Master(channel)
+  except:
+    raise Exception('Can not connect  to RABBITMQ')
 
 if __name__ == "__main__":
   uvicorn.run(app, host="0.0.0.0", port=GAME_PORT, )
