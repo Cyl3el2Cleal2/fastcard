@@ -44,9 +44,12 @@ class GameService:
         game = await self.get_game(data.id)
         print(data, game)
         if game:
+            if game["picked"] == game["map"]:
+                return PickCardResponse(message="Sorry, This game is over.", message_type=8, data=self.show_game(game))
             if pick <= 0 or pick > 12:
                 # Pick out of range
-                return {'pick must in range 1 - 12.'}
+                # return {'pick must in range 1 - 12.'}
+                return PickCardResponse(message="No, Your pick must in range 1 - 12.", message_type=6, data=self.show_game(game))
             if game["last_pick"] == pick:
                 # pick same card as previous pick
                 # return {'dont pick same card as previous pick'}
@@ -76,6 +79,9 @@ class GameService:
                 game["picked_count"] += 1
                 updated = await update_game(data.id, game)
                 # return self.show_game(updated)
+                if updated["picked"] == game["map"]:
+                    score = updated["picked_count"]
+                    return PickCardResponse(message=f"Congate, You win this game with score = {score}", message_type=7, data=self.show_game(updated))
                 return PickCardResponse(message=f"Nice, Find next couple.", message_type=4, data=self.show_game(updated))
 
             # openning second card of two and pick wrong card!
@@ -97,10 +103,3 @@ class GameService:
                 return PickCardResponse(message=f"Unlucky, Please remember card position.", message_type=5, data=data)
 
         return PickCardResponse(message="Not found", message_type=0)
-
-
-if __name__ == "__main__":
-    game = GameService()
-    map = game.random_map()
-    print(map)
-    print(game.create_game())
