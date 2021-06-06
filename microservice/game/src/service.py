@@ -115,5 +115,7 @@ class GameService:
 
     async def boardcast_winner(self, player: str, score: int):
         # send task to rank service if score is greater than current state
+        if self._top_score is None:
+            await self.get_top_score()
         if score > self._top_score:
             await MQ.get_master().create_task("ranking", kwargs=dict(player=player,score=score))
