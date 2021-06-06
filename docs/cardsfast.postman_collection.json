@@ -1,0 +1,703 @@
+{
+	"info": {
+		"_postman_id": "2373a36a-1b7a-482c-8af0-8bc3c6bb5a4e",
+		"name": "cardsfast",
+		"description": "Card game API building by FastAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "game",
+			"item": [
+				{
+					"name": "get game",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}{{prefix}}/games/60bcbe282d997894e4c7653c",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"games",
+								"60bcbe282d997894e4c7653c"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get game",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}:{{port}}/games/60bcbe282d997894e4c7653c",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games",
+										"60bcbe282d997894e4c7653c"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 12:26:39 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "116"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"60bcbe282d997894e4c7653c\",\n    \"player\": \"abc\",\n    \"picked\": [\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        2\n    ],\n    \"picked_count\": 1,\n    \"last_pick\": 12\n}"
+						}
+					]
+				},
+				{
+					"name": "create game",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"player\": \"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}{{prefix}}/games",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"games"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create game",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"player\": \"abc\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:14:26 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "83"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"player\": \"abc\",\n    \"picked\": [\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0\n    ],\n    \"picked_count\": 0,\n    \"last_pick\": -1\n}"
+						}
+					]
+				},
+				{
+					"name": "pick card",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"60bcbe282d997894e4c7653c\",\n    \"player\": \"abc\",\n    \"pick\": 12\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}{{prefix}}/games",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"games"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "type1",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 07:20:18 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "191"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"dont pick same card as previous pick.\",\n    \"message_type\": 1,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            0,\n            3,\n            0,\n            4,\n            4,\n            0,\n            0,\n            0,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 13,\n        \"last_pick\": 2\n    }\n}"
+						},
+						{
+							"name": "type2",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:05:58 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "183"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"this card number 4 was open.\",\n    \"message_type\": 2,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            0,\n            0,\n            0,\n            4,\n            4,\n            0,\n            0,\n            0,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 16,\n        \"last_pick\": -1\n    }\n}"
+						},
+						{
+							"name": "type3",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:05:15 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "187"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"OK, Pick a next card to matching.\",\n    \"message_type\": 3,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            6,\n            0,\n            0,\n            4,\n            4,\n            0,\n            0,\n            0,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 15,\n        \"last_pick\": 1\n    }\n}"
+						},
+						{
+							"name": "type4",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 8\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:07:25 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "178"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Nice, Find next couple.\",\n    \"message_type\": 4,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            0,\n            0,\n            1,\n            4,\n            4,\n            0,\n            0,\n            1,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 18,\n        \"last_pick\": -1\n    }\n}"
+						},
+						{
+							"name": "type5",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:04:07 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "233"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Unlucky, Please remember card position.\",\n    \"message_type\": 5,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            0,\n            0,\n            0,\n            4,\n            4,\n            0,\n            0,\n            0,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 14,\n        \"last_pick\": -1,\n        \"old_picked\": [\n            6,\n            3,\n            0,\n            4,\n            4,\n            0,\n            0,\n            0,\n            5,\n            5,\n            2,\n            2\n        ]\n    }\n}"
+						},
+						{
+							"name": "type6",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:11:55 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "190"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"No, Your pick must in range 1 - 12.\",\n    \"message_type\": 6,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            0,\n            0,\n            1,\n            4,\n            4,\n            0,\n            0,\n            1,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 18,\n        \"last_pick\": -1\n    }\n}"
+						},
+						{
+							"name": "type7",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 12\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:27:52 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "197"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Congate, You win this game with score = 24\",\n    \"message_type\": 7,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            6,\n            3,\n            1,\n            4,\n            4,\n            3,\n            6,\n            1,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 24,\n        \"last_pick\": -1\n    }\n}"
+						},
+						{
+							"name": "type8",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"60bbcad1cdb743860c726e2a\",\n    \"player\": \"abc\",\n    \"pick\": 6\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}:{{port}}/games",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Sun, 06 Jun 2021 08:21:50 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "180"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Sorry, This game is over.\",\n    \"message_type\": 8,\n    \"data\": {\n        \"id\": \"60bbcad1cdb743860c726e2a\",\n        \"player\": \"abc\",\n        \"picked\": [\n            6,\n            3,\n            1,\n            4,\n            4,\n            3,\n            6,\n            1,\n            5,\n            5,\n            2,\n            2\n        ],\n        \"picked_count\": 22,\n        \"last_pick\": -1\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This route contains \n- create game (request player name in body)\n\n- get game (request id in params)\n\n- pick card (request id in body)\n\nid is game id from create game result"
+		},
+		{
+			"name": "rank",
+			"item": [
+				{
+					"name": "top_score",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:{{port}}{{prefix}}/top_score",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"top_score"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "top_score",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}:{{port}}{{prefix}}/top_score",
+									"host": [
+										"{{url}}"
+									],
+									"port": "{{port}}{{prefix}}",
+									"path": [
+										"top_score"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.21.0"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 06 Jun 2021 12:44:36 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "14"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"score\": null\n}"
+						}
+					]
+				}
+			],
+			"description": "get top score of finished game"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost"
+		},
+		{
+			"key": "port",
+			"value": "8000"
+		},
+		{
+			"key": "prefix",
+			"value": ""
+		}
+	]
+}
