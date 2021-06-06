@@ -22,3 +22,11 @@ or postman collection at in `docs` folder.
 - connect to 
 ws://localhost:8080/ws
 whenever the game finished with new high score then it will publish to you such as '{"score": 12}'
+
+### mongo-express
+- http://localhost:8081
+
+### rabbit-management
+user = guest
+pass = guest
+- http://localhost:15672
