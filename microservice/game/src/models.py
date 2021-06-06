@@ -27,8 +27,45 @@ class Game(BaseModel):
     last_pick: int = -1
 
 
+class GameShow(BaseModel):
+    player: str
+    picked: List[int]
+    picked_count: int
+    last_pick: int
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "player": "abc",
+                "picked": [
+                    0,
+                    3,
+                    0,
+                    4,
+                    4,
+                    0,
+                    0,
+                    0,
+                    5,
+                    5,
+                    2,
+                    2
+                ],
+                "picked_count": 13,
+                "last_pick": 2
+            }
+        }
+
+
 class GameCreateBody(BaseModel):
     player: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "player": "abc"
+            }
+        }
 
 
 class GameUpdateBody(BaseModel):
@@ -36,8 +73,44 @@ class GameUpdateBody(BaseModel):
     player: str
     pick: int
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "id": "60bbcad1cdb743860c726e2a",
+                "player": "abc",
+                "pick": 7
+            }
+        }
+
 
 class PickCardResponse(BaseModel):
     message: str
     message_type: int
     data: Optional[dict]
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "message": "Congrate",
+                "message_type": 8,
+                "data": {
+                    "player": "abc",
+                    "picked": [
+                        0,
+                        3,
+                        0,
+                        4,
+                        4,
+                        0,
+                        0,
+                        0,
+                        5,
+                        5,
+                        2,
+                        2
+                    ],
+                    "picked_count": 13,
+                    "last_pick": 2
+                }
+            }
+        }
