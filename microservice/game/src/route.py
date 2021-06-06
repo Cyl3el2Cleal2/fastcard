@@ -17,7 +17,7 @@ async def get_game(game_id: str):
     return game
 
 
-@router.post('/games', response_model=GameShow)
+@router.post('/games', status_code= 201, response_model=GameShow)
 async def create_game(game: GameCreateBody = Body(...)):
     new_game = gameservice.create_game(game.player)
     result = await gameservice.save_game(jsonable_encoder(new_game))
