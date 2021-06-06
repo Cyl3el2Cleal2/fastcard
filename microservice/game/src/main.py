@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse
-from aio_pika import connect_robust
-from aio_pika.patterns import Master
 import uvicorn
 import os
 
@@ -16,11 +14,11 @@ RMQ_HOST = os.getenv('RMQ_HOST', 'localhost')
 
 GAME_PORT = int(os.getenv('GAME_PORT', '8000'))
 
-app = FastAPI()
+app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi.json")
 
 master = None
 
-app.include_router(router)
+app.include_router(router, prefix='/api')
 
 @app.get("/")
 async def root():

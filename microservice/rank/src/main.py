@@ -13,12 +13,16 @@ RMQ_HOST = os.getenv('RMQ_HOST') or 'localhost'
 
 RANK_PORT = int(os.getenv('RANK_PORT') or '8001')
 
-app = FastAPI()
+app = FastAPI(docs_url="/ws/docs", openapi_url="/ws/openapi.json")
 
 notifier = Notifier()
 
-@app.get("/")
+@app.get("/ws")
 async def root():
+  return {"message": "RANK API is running."}
+
+@app.get("/ws")
+async def ws():
   return {"message": "RANK API is running."}
 
 @app.websocket("/ws")
