@@ -9,6 +9,8 @@ uvicorn = "*"
 aio-pika = "*"
 pymongo = "*"
 motor = "*"
+pytest = "*"
+pytest-asyncio = "*"
 
 [dev-packages]
 
