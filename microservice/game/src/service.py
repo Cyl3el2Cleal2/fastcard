@@ -35,8 +35,8 @@ class GameService:
         # Find finished game
         top_score_doc = await find_top_score()
         if top_score_doc:
-            self._top_score = top_score_doc["picked_count"]
-            return {"score": self._top_score}
+            top_score = top_score_doc["picked_count"]
+            return {"score": top_score}
         return {"score": None}
 
     async def save_game(self, game: Game) -> Game:
@@ -85,13 +85,17 @@ class GameService:
                 game["last_pick"] = -1
                 # count picking
                 game["picked_count"] += 1
-                updated = await update_game(data.id, game)
-                # return self.show_game(updated)
-                if updated["picked"] == game["map"]:
-                    score = updated["picked_count"]
-                    player = updated["player"]
+
+                # win game
+                if game["picked"] == game["map"]:
+                    score = game["picked_count"]
+                    player = game["player"]
                     await self.boardcast_winner(player, score)
+                    updated = await update_game(data.id, game)
                     return PickCardResponse(message=f"Congate, You win this game with score = {score}", message_type=7, data=self.show_game(updated))
+                
+                # Not win game find next couple
+                updated = await update_game(data.id, game)
                 return PickCardResponse(message=f"Nice, Find next couple.", message_type=4, data=self.show_game(updated))
 
             # openning second card of two and pick wrong card!
@@ -116,9 +120,9 @@ class GameService:
 
     async def boardcast_winner(self, player: str, score: int):
         # send task to rank service if score is greater than current state
-        if self._top_score is None:
-            await self.get_top_score()
-        if score > self._top_score:
-            await MQ.get_master().create_task("ranking", kwargs=dict(player=player,score=score))
+        top_score = await self.get_top_score()
+        print(top_score)
+        if score < top_score["score"]:
+            await MQ.get_master().create_task("ranking", kwargs=dict(score=score))
             return True
         return False
