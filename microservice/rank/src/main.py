@@ -36,8 +36,8 @@ async def websocket_endpoint(websocket: WebSocket):
     notifier.remove(websocket)
 
 
-async def new_top_score(*, data: dict):
-  await notifier.push(f'{{"score": {data["score"]}}}')
+async def new_top_score(*, score):
+  await notifier.push(f'{{"score": {score}}}')
   # print(task_id)
 
 async def create_master():
