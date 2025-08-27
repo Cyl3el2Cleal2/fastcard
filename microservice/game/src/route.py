@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body, status, HTTPException
-from models import GameShow, GameCreateBody, GameUpdateBody, PickCardResponse
+from models import GameShow, GameCreateBody, PickCardBody
 from service import GameService
 from fastapi.encoders import jsonable_encoder
 
@@ -24,10 +24,10 @@ async def create_game(game: GameCreateBody = Body(...)):
     return result
 
 
-@router.put('/games', response_model=PickCardResponse)
-async def pick_card(data: GameUpdateBody = Body(...)):
-    updating = await gameservice.pick_card(data)
-    return updating
+@router.post('/games/{game_id}/pick', response_model=GameShow)
+async def pick_card(game_id: str, data: PickCardBody = Body(...)):
+    updated_game = await gameservice.pick_card(game_id, data.pick)
+    return updated_game
 
 @router.get('/top_score')
 async def top_score():

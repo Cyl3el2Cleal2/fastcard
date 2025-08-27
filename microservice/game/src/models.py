@@ -78,49 +78,12 @@ class GameCreateBody(BaseModel):
         }
 
 
-class GameUpdateBody(BaseModel):
-    id: str
-    player: str
+class PickCardBody(BaseModel):
     pick: int
 
     class Config:
         schema_extra = {
             "example": {
-                "id": "60bbcad1cdb743860c726e2a",
-                "player": "abc",
                 "pick": 7
-            }
-        }
-
-
-class PickCardResponse(BaseModel):
-    message: str
-    message_type: int
-    data: Optional[dict]
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "message": "Congrate",
-                "message_type": 8,
-                "data": {
-                    "player": "abc",
-                    "picked": [
-                        0,
-                        3,
-                        0,
-                        4,
-                        4,
-                        0,
-                        0,
-                        0,
-                        5,
-                        5,
-                        2,
-                        2
-                    ],
-                    "picked_count": 13,
-                    "last_pick": 2
-                }
             }
         }
